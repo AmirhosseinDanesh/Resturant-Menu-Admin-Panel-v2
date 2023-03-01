@@ -6,3 +6,10 @@
 input.form-control{
     direction: ltr;
 }
+
+.valid{
+    border: 3px solid green !important;
+}
+.notvalid{
+    border: 3px solid red !important;
+}
