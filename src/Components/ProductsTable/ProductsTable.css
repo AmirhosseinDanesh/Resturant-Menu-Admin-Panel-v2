@@ -1,0 +1,24 @@
+.table {
+  color: var(--white) !important;
+}
+
+.table,
+.table .btn {
+  font-size: 0.6rem;
+}
+
+.tb-pr-img {
+  width: 60px;
+}
+
+@media (min-width: 769px) {
+  .table {
+    font-size: 1rem;
+  }
+  .table .btn {
+    font-size: 0.8rem;
+  }
+  .tb-pr-img {
+    width: 120px;
+  }
+}

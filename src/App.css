@@ -1,0 +1,16 @@
+.main {
+  width: 65%;
+  border-radius: 15px;
+  background-color: var(--dark) !important;
+  color: var(--white);
+  
+}
+.main svg{
+  color: var(--white);
+  
+}
+@media (min-width: 769px) {
+  .main {
+    width: 79%;
+  }
+}

@@ -1,0 +1,75 @@
+.sidebar {
+  width: 35%;
+  font-size: 0.65rem !important;
+  background-color: #121212;
+  color: white !important;
+}
+.sb-profile_img img{
+  width: 30px;
+}
+.sb-title-list{
+  margin-bottom: 0.8rem !important;
+}
+.sb-title-list.active{
+  margin-bottom: 0.5rem !important;
+}
+
+.sb-li {
+  padding: 0.5rem;
+  margin: 1rem 0rem;
+  color: white !important;
+
+}
+.sb-li.active {
+  color:#121212 !important;
+  background-color: white;
+  border-radius: 30px;
+}
+
+.sb-icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sb-list-item li.show {
+  margin-bottom: 0;
+}
+.sb-menu-icon-left {
+  transition: 0.5s !important;
+  transform: rotateZ(0deg);
+}
+.active .sb-menu-icon-left {
+  transform: rotateZ(-90deg);
+}
+.sb-git div a{
+  color: var(--dark);
+}
+
+/* phones  */
+@media (max-width: 480px) {
+}
+@media (min-width: 769px) {
+  .sidebar {
+    width: 21%;
+    font-size: 1rem !important;
+  }
+  .sb-li {
+    padding: 1rem 2rem;
+    margin: 1.5rem 0rem;
+  }
+  .icons {
+    font-size: 1.3rem !important;
+  }
+  .sb-profile_img img{
+    width: 60px;
+  }
+
+  .sb-title-list{
+    margin-bottom: 2rem !important;
+  }
+  .sb-title-list.active{
+    margin-bottom: 0.5rem !important;
+  }
+  
+  
+}

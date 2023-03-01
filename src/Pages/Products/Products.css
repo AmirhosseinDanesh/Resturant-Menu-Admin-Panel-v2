@@ -1,0 +1,23 @@
+.form-group,
+.form-group input {
+  font-size: 0.5rem;
+}
+.pr-submit-btn{
+  font-size: 0.5rem !important;
+}
+
+.form-control{
+  border: 1px solid black;
+}
+.form-control::placeholder{
+  color: black !important;
+}
+@media (min-width: 769px) {
+  .pr-submit-btn{
+    font-size: 1rem !important;
+  }
+  .form-group,
+  .form-group input {
+    font-size: 1rem;
+  }
+}
