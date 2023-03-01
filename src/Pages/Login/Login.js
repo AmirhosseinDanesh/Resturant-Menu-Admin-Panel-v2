@@ -73,18 +73,16 @@ export default function Login() {
                         </div>
                         <div className="d-flex align-items-center justify-content-between ">
                             <Button
-                                className={`login-form__btn ${formState.isFormValid
-                                    ? "login-form__btn-success"
-                                    : "login-form__btn-error"
+                                className={`submitbtn-login btn fw-bold ${formState.isFormValid
+                                    ? "btn-success"
+                                    : "btn-danger"
                                     }`}
                                 type="submit"
                                 onClick={userLogin}
                                 disabled={!formState.isFormValid}
                             >
-                                <i className="login-form__btn-icon fas fa-sign-out-alt"></i>
-                                <span className="login-form__btn-text">ورود</span>
+                                ورود
                             </Button>
-                            <button type="submit" className="submitbtn-login btn btn-success fw-bold">ورود</button>
                             <NavLink to="/register" className="text-white text-decoration-none">
                                 <button type="submit" className="submitbtn-login btn btn-danger">اگر حساب کاربری <span className='fw-bold'>ندارید</span> کلیک کنید</button>
                             </NavLink>

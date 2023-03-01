@@ -7,11 +7,11 @@ export default function Register() {
         <>
             <div className="loginformbg col-12 d-flex justify-content-center">
                 <div className="loginform col-md-4 ">
-                <h5 className='text-center'>
+                    <h5 className='text-center'>
                         ثبت نام
                     </h5>
                     <form>
-                    <div className="form-group mb-3">
+                        <div className="form-group mb-3">
                             <label className='input-label' >نام کاربری</label>
                             <Input type="text" className="form-control" placeholder='AmirDanesh' element="input" />
                         </div>
