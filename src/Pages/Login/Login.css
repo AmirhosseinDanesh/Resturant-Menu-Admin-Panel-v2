@@ -1,10 +1,19 @@
 .loginformbg{
     padding-top: 6rem;
     height: 100vh;
-    background: #285bbd;
+    background: #34495e;
     width: 100%;
     color: white;
 
+}
+.swal-title{
+    font-size: 0.8rem;
+}
+
+.swal-footer{
+    display: flex;
+    justify-content: center;
+    font-size: 0.8rem;
 }
 
 .btn:disabled{

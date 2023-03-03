@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import Collapse from 'react-bootstrap/Collapse';    
+import React, { useContext, useState } from 'react'
+import Collapse from 'react-bootstrap/Collapse';
 import { NavLink } from 'react-router-dom';
 
 import { MdSpaceDashboard, MdOutlineHomeMax } from "react-icons/md"
@@ -8,7 +8,9 @@ import { RxCodesandboxLogo } from "react-icons/rx"
 import { AiOutlineShoppingCart } from "react-icons/ai"
 import { FaUsers, FaComment, FaDollarSign } from "react-icons/fa"
 import { BiChevronLeft } from "react-icons/bi"
-import { FiGithub} from "react-icons/fi"
+import { FiGithub } from "react-icons/fi"
+
+import authContext from '../../Contexts/authContext';
 
 import "./Sidebar.css"
 
@@ -16,6 +18,7 @@ import "./Sidebar.css"
 export default function Sidebar() {
     const [open, setOpen] = useState(true);
     const [open2, setOpen2] = useState(true);
+    const auth = useContext(authContext)
     return (
         <div className="sidebar d-flex flex-column justify-content-between  ">
             <div className='mt-1 '>
@@ -25,10 +28,10 @@ export default function Sidebar() {
                     </div>
                     <div className="sb-profile_info d-flex flex-column justify-content-center align-items-center p-md-2 ">
                         <span className='sb-profile_info_name mb-2 p-md-1 mb-md-2'>
-                            امیرحسین دانش
+                            {auth.userInfo.name}
                         </span>
                         <span className='sb-profile_info_position mb-2 p-md-1'>
-                            مدیریت کل
+                            {auth.userInfo.role}
                         </span>
                     </div>
                 </div>
@@ -47,9 +50,9 @@ export default function Sidebar() {
                             <BiChevronLeft className='sb-menu-icon-left' />
                         </div>
                         <Collapse in={open}>
-                            <NavLink  to="/" className='sb-li sb-icon text-decoration-none' id="example-collapse-text">
-                                    صفحه اصلی
-                                    <MdOutlineHomeMax className='icons' style={{ fontSize: "0.9rem" }} />
+                            <NavLink to="/" className='sb-li sb-icon text-decoration-none' id="example-collapse-text">
+                                صفحه اصلی
+                                <MdOutlineHomeMax className='icons' style={{ fontSize: "0.9rem" }} />
                             </NavLink>
                         </Collapse>
                     </div>
@@ -67,23 +70,23 @@ export default function Sidebar() {
                         </div>
                         <Collapse in={open2}>
                             <ul className='px-1' id="example-collapse-text ">
-                                <NavLink  to="/products" className='sb-li sb-icon text-decoration-none'>
+                                <NavLink to="/products" className='sb-li sb-icon text-decoration-none'>
                                     محصولات
                                     <RxCodesandboxLogo className='icons' style={{ fontSize: "0.9rem" }} />
                                 </NavLink>
-                                <NavLink  to="/users" className='sb-li sb-icon text-decoration-none'>
+                                <NavLink to="/users" className='sb-li sb-icon text-decoration-none'>
                                     کاربران
                                     <FaUsers className='icons' style={{ fontSize: "0.9rem" }} />
                                 </NavLink>
-                                <NavLink  to="/comments" className='sb-li sb-icon text-decoration-none'>
+                                <NavLink to="/comments" className='sb-li sb-icon text-decoration-none'>
                                     کامنت ها
                                     <FaComment className='icons' style={{ fontSize: "0.9rem" }} />
                                 </NavLink>
-                                <NavLink  to="/orders" className='sb-li sb-icon text-decoration-none'>
+                                <NavLink to="/orders" className='sb-li sb-icon text-decoration-none'>
                                     سفارشات
                                     <AiOutlineShoppingCart className='icons' style={{ fontSize: "0.9rem" }} />
                                 </NavLink>
-                                <NavLink  to="/offs" className='sb-li sb-icon text-decoration-none'>
+                                <NavLink to="/offs" className='sb-li sb-icon text-decoration-none'>
                                     تخفیف ها
                                     <FaDollarSign className='icons' style={{ fontSize: "0.9rem" }} />
                                 </NavLink>
@@ -95,8 +98,8 @@ export default function Sidebar() {
             </div>
             <div className="sb-git text-center d-flex justify-content-center">
                 <div className='d-flex justify-content-around w-25'>
-                    <a  className='text-decoration-none ' href='https://github.com/AmirhosseinDanesh' target={'_blank'} rel="noopener noreferrer">
-                    <FiGithub style={{marginLeft:"3px"}}/>
+                    <a className='text-decoration-none ' href='https://github.com/AmirhosseinDanesh' target={'_blank'} rel="noopener noreferrer">
+                        <FiGithub style={{ marginLeft: "3px" }} />
                         GitHub
                     </a>
                 </div>
