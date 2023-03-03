@@ -1,21 +1,26 @@
-.loginformbg{
-    padding-top: 6rem;
-    height: 100vh;
-    background: #34495e;
-    width: 100%;
-    color: white;
-
+.loginformbg {
+  padding-top: 6rem;
+  height: 100vh;
+  background: #34495e;
+  width: 100%;
+  color: white;
 }
-.swal-title{
-    font-size: 0.8rem;
-}
-
-.swal-footer{
-    display: flex;
-    justify-content: center;
-    font-size: 0.8rem;
+.swal-title {
+  font-size: 0.8rem;
 }
 
-.btn:disabled{
-    opacity: 0.9 !important;
+.swal-footer {
+  display: flex;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+.btn:disabled {
+  opacity: 0.9 !important;
+}
+
+.captchadiv {
+  display: flex !important;
+  justify-content: center !important;
+  margin-bottom: 2rem !important;
 }

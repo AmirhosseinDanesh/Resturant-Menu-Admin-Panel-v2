@@ -29,7 +29,6 @@ export default function App() {
   useEffect(() => {
     const localStorageData = JSON.parse(localStorage.getItem("user"))
     if (localStorageData) {
-
       fetch(`http://localhost:4000/v1/auth/me`, {
         headers: {
           Authorization: `Bearer ${localStorageData.token}`
@@ -39,11 +38,12 @@ export default function App() {
           setIsLoggedIn(true)
           setUserInfo(userData)
         })
-
+    }else{
+      setIsLoggedIn(false)
     }
 
 
-  }, [login])
+  }, [login , logout])
   return (
     <authContext.Provider value={{
       isLoggedIn,

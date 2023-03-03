@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import "./Login.css"
 import Data from "../../Data/Data"
 import Input from '../../Components/Forms/Input'
@@ -9,10 +9,11 @@ import Button from "../../Components/Forms/button"
 import authContext from '../../Contexts/authContext'
 import swal from "sweetalert"
 import { useNavigate } from 'react-router-dom';
-
+import ReCAPTCHA from "react-google-recaptcha";
 export default function Login() {
     const auth = useContext(authContext)
     const navigate = useNavigate()
+    const [isCaptchaChecked, setIsCaptchaChecked] = useState(false)
     const [formState, onInputHandler] = useForm(
         {
             username: {
@@ -48,7 +49,7 @@ export default function Login() {
                         title: "رمز عبور یا نام کاربری اشتباه است",
                         buttons: "تلاش مجدد",
                         icon: "error",
-                        
+
 
                     })
 
@@ -61,16 +62,19 @@ export default function Login() {
                 swal({
                     title: "یا موفقیت وارد شدید",
                     buttons: "بستن",
-                    timer: 2500,
+                    timer: 1000,
 
                 })
                 setTimeout(() => {
                     navigate("/")
-                }, 3000);
+                }, 1500);
             })
 
-        console.log("User Login");
     };
+
+    const recaptchaHandler = () => {
+        setIsCaptchaChecked(true)
+    }
     return (
         <>
             <div className="loginformbg col-12 d-flex justify-content-center">
@@ -113,22 +117,30 @@ export default function Login() {
                             />
                         </div>
                         <div className="form-check">
-
                             <input type="checkbox" className="form-check-input" element="input" />
                             <label className="form-check-label" for="exampleCheck1">مرا به خاطر بسپار</label>
                         </div>
+                        {/* <div className="form-check captchadiv">
+                            <ReCAPTCHA
+                                sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                                onChange={recaptchaHandler}
+                            />
+                        </div> */}
                         <div className="d-flex align-items-center justify-content-between ">
                             <Button
-                                className={`submitbtn-login btn fw-bold ${formState.isFormValid
-                                    ? "btn-success"
-                                    : "btn-danger"
+                                className={`submitbtn-login btn fw-bold ${(formState.isFormValid)
+                                // className={`submitbtn-login btn fw-bold ${(formState.isFormValid && isCaptchaChecked)
+                                        ? "btn-success"
+                                        : "btn-danger"
                                     }`}
                                 type="submit"
                                 onClick={userLogin}
                                 disabled={!formState.isFormValid}
+                                // disabled={!formState.isFormValid || !isCaptchaChecked}
                             >
                                 ورود
                             </Button>
+
                             <NavLink to="/register" className="text-white text-decoration-none">
                                 <button type="submit" className="submitbtn-login btn btn-danger">اگر حساب کاربری <span className='fw-bold'>ندارید</span> کلیک کنید</button>
                             </NavLink>
