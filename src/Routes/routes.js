@@ -16,16 +16,18 @@ const routes = [
     // {path: "/users" , element: <Users />},
     // {path: "/comments" , element: <Comments />},
     // {path: "/offs" , element: <Offs />},
-    {path: "/login" , element: <Login />},
-    {path: "/register" , element: <Register />},
+    { path: "/login", element: <Login /> },
+    { path: "/register", element: <Register /> },
 
     {
         path: "/p-admin/*",
-        element: <PrivateRoutes>
-            <AdminPanel />
-        </PrivateRoutes>,
+        element: (
+            <PrivateRoutes>
+                <AdminPanel />
+            </PrivateRoutes>
+        ),
         children: [
-            { path: "", element: <Index />  },
+            { path: "", element: <Index /> },
             { path: "products", element: <Products /> },
             { path: "orders", element: <Orders /> },
             { path: "users", element: <Users /> },

@@ -16,7 +16,8 @@ export default function Header() {
     const navigate = useNavigate()
     const logoutHandler = () => {
         swal({
-            title: "خارج شدید"
+            title: "خارج شدید",
+            buttons: "بستن"
         }).then(() => {
             auth.logout()
             navigate("/login")
@@ -68,9 +69,7 @@ export default function Header() {
                     </div>
                 </div>
                 <button className='btn d-none d-md-block'>
-                    <GiExitDoor className='hd-icons ' onClick={() => {
-                        logoutHandler()
-                    }} />
+                    <GiExitDoor className='hd-icons ' onClick={logoutHandler} />
                 </button>
             </div>
         </>

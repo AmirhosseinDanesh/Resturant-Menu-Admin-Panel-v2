@@ -27,8 +27,8 @@ export default function Login() {
         },
         false
     );
-    useEffect(()=>{
-        
+    useEffect(() => {
+
     })
     const userLogin = (event) => {
         event.preventDefault();
@@ -46,27 +46,31 @@ export default function Login() {
             body: JSON.stringify(userData)
         })
             .then((res) => {
-                if (res.status !== 200) {
-                    swal({
-                        title: "رمز عبور یا نام کاربری اشتباه است",
-                        buttons: "تلاش مجدد",
-                        icon: "error",
-                    })
-
+                if (!res.ok) {
+                    return res.text().then((text) => {
+                        throw new Error(text);
+                    });
                 } else {
-                    return res.json()
+                    return res.json();
                 }
-            }).then((result) => {
-                auth.login({}, result.accessToken)
-                swal({
-                    title: "یا موفقیت وارد شدید",
-                    buttons: "بستن",
-                    timer: 1000,
-                })
-                setTimeout(() => {
-                    navigate("/p-admin")
-                }, 1500);
             })
+            .then((result) => {
+                swal({
+                    title: "با موفقیت لاگین شدید",
+                    icon: "success",
+                    buttons: "ورود به پنل",
+                }).then(() => {
+                    auth.login({}, result.accessToken);
+                    navigate("/p-admin");
+                });
+            })
+            .catch((err) => {
+                swal({
+                    title: "همچین کاربری وجود ندارد",
+                    icon: "error",
+                    buttons: "تلاش دوباره",
+                });
+            });
 
     };
 
@@ -127,14 +131,14 @@ export default function Login() {
                         <div className="d-flex align-items-center justify-content-between ">
                             <Button
                                 className={`submitbtn-login btn fw-bold ${(formState.isFormValid)
-                                // className={`submitbtn-login btn fw-bold ${(formState.isFormValid && isCaptchaChecked)
-                                        ? "btn-success"
-                                        : "btn-danger"
+                                    // className={`submitbtn-login btn fw-bold ${(formState.isFormValid && isCaptchaChecked)
+                                    ? "btn-success"
+                                    : "btn-danger"
                                     }`}
                                 type="submit"
                                 onClick={userLogin}
                                 disabled={!formState.isFormValid}
-                                // disabled={!formState.isFormValid || !isCaptchaChecked}
+                            // disabled={!formState.isFormValid || !isCaptchaChecked}
                             >
                                 ورود
                             </Button>
