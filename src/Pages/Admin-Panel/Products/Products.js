@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import AddNewProducts from "../../Components/AddNewProducts/AddNewProducts"
-import ProductsTable from '../../Components/ProductsTable/ProductsTable'
+import AddNewProducts from "../../../Components/AddNewProducts/AddNewProducts"
+import ProductsTable from '../../../Components/ProductsTable/ProductsTable'
 import "./Products.css"
-import Data from "../../Data/Data"
-import Sidebar from '../../Components/Sidebar/Sidebar'
-import Header from '../../Components/Header/Header'
+import Data from "../../../Data/Data"
+import Sidebar from '../../../Components/Sidebar/Sidebar'
+import Header from '../../../Components/Header/Header'
 export default function Products() {
   const [allProducts, setAllProducts] = useState([])
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import "./Login.css"
 import Data from "../../Data/Data"
 import Input from '../../Components/Forms/Input'
@@ -27,7 +27,9 @@ export default function Login() {
         },
         false
     );
-
+    useEffect(()=>{
+        
+    })
     const userLogin = (event) => {
         event.preventDefault();
 
@@ -49,8 +51,6 @@ export default function Login() {
                         title: "رمز عبور یا نام کاربری اشتباه است",
                         buttons: "تلاش مجدد",
                         icon: "error",
-
-
                     })
 
                 } else {
@@ -58,15 +58,13 @@ export default function Login() {
                 }
             }).then((result) => {
                 auth.login({}, result.accessToken)
-                console.log(result)
                 swal({
                     title: "یا موفقیت وارد شدید",
                     buttons: "بستن",
                     timer: 1000,
-
                 })
                 setTimeout(() => {
-                    navigate("/")
+                    navigate("/p-admin")
                 }, 1500);
             })
 

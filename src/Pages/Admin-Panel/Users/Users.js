@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import "./Users.css"
-import DeleteModal from "../../Components/DeleteModal/DeleteModal"
-import DetailModals from '../../Components/DetailModals/DetailModals'
-import EditModal from '../../Components/EditModal/EditModal';
-import ErrorBox from '../../Components/ErrorBox/ErrorBox'
-import Data from '../../Data/Data';
-import Sidebar from '../../Components/Sidebar/Sidebar'
-import Header from '../../Components/Header/Header'
+import DeleteModal from "../../../Components/DeleteModal/DeleteModal"
+import DetailModals from '../../../Components/DetailModals/DetailModals'
+import EditModal from '../../../Components/EditModal/EditModal';
+import ErrorBox from '../../../Components/ErrorBox/ErrorBox'
+import Data from '../../../Data/Data';
+import Sidebar from '../../../Components/Sidebar/Sidebar'
+import Header from '../../../Components/Header/Header'
 export default function Users() {
   const [allUsers, setAllUsers] = useState([])
 

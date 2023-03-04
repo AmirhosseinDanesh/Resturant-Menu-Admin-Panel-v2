@@ -24,14 +24,14 @@ export default function Sidebar() {
             <div className='mt-1 '>
                 <div className="sb-profile d-flex align-items-center p-md-3 justify-content-center flex-column text-center">
                     <div className="sb-profile_img mb-2">
-                        <img src="./Images/profile.png" alt="" />
+                        <img src="../Images/profile.png" alt="" />
                     </div>
                     <div className="sb-profile_info d-flex flex-column justify-content-center align-items-center p-md-2 ">
                         <span className='sb-profile_info_name mb-2 p-md-1 mb-md-2'>
                             {auth.userInfo.name}
                         </span>
                         <span className='sb-profile_info_position mb-2 p-md-1'>
-                            {auth.userInfo.role}
+                            {auth.userInfo.role === "ADMIN" && "مدیرکل"}
                         </span>
                     </div>
                 </div>
@@ -50,7 +50,7 @@ export default function Sidebar() {
                             <BiChevronLeft className='sb-menu-icon-left' />
                         </div>
                         <Collapse in={open}>
-                            <NavLink to="/" className='sb-li sb-icon text-decoration-none' id="example-collapse-text">
+                            <NavLink to="/p-admin/" className='sb-li sb-icon text-decoration-none' id="example-collapse-text">
                                 صفحه اصلی
                                 <MdOutlineHomeMax className='icons' style={{ fontSize: "0.9rem" }} />
                             </NavLink>
@@ -70,23 +70,23 @@ export default function Sidebar() {
                         </div>
                         <Collapse in={open2}>
                             <ul className='px-1' id="example-collapse-text ">
-                                <NavLink to="/products" className='sb-li sb-icon text-decoration-none'>
+                                <NavLink to="/p-admin/products" className='sb-li sb-icon text-decoration-none'>
                                     محصولات
                                     <RxCodesandboxLogo className='icons' style={{ fontSize: "0.9rem" }} />
                                 </NavLink>
-                                <NavLink to="/users" className='sb-li sb-icon text-decoration-none'>
+                                <NavLink to="/p-admin/users" className='sb-li sb-icon text-decoration-none'>
                                     کاربران
                                     <FaUsers className='icons' style={{ fontSize: "0.9rem" }} />
                                 </NavLink>
-                                <NavLink to="/comments" className='sb-li sb-icon text-decoration-none'>
+                                <NavLink to="/p-admin/comments" className='sb-li sb-icon text-decoration-none'>
                                     کامنت ها
                                     <FaComment className='icons' style={{ fontSize: "0.9rem" }} />
                                 </NavLink>
-                                <NavLink to="/orders" className='sb-li sb-icon text-decoration-none'>
+                                <NavLink to="/p-admin/orders" className='sb-li sb-icon text-decoration-none'>
                                     سفارشات
                                     <AiOutlineShoppingCart className='icons' style={{ fontSize: "0.9rem" }} />
                                 </NavLink>
-                                <NavLink to="/offs" className='sb-li sb-icon text-decoration-none'>
+                                <NavLink to="/p-admin/offs" className='sb-li sb-icon text-decoration-none'>
                                     تخفیف ها
                                     <FaDollarSign className='icons' style={{ fontSize: "0.9rem" }} />
                                 </NavLink>

@@ -20,12 +20,12 @@ export default function App() {
     setIsLoggedIn(true)
     setUserInfo(userInfo)
     localStorage.setItem("user", JSON.stringify({ token }))
-  }, [])
+  },[])
   const logout = useCallback(() => {
     setToken(null)
     setUserInfo({})
     localStorage.removeItem("user")
-  })
+  },[])
   useEffect(() => {
     const localStorageData = JSON.parse(localStorage.getItem("user"))
     if (localStorageData) {
@@ -41,9 +41,7 @@ export default function App() {
     }else{
       setIsLoggedIn(false)
     }
-
-
-  }, [login , logout])
+  }, [login , logout]);
   return (
     <authContext.Provider value={{
       isLoggedIn,

@@ -1,7 +1,7 @@
 import React from 'react'
-import ErrorBox from '../../Components/ErrorBox/ErrorBox'
-import Sidebar from '../../Components/Sidebar/Sidebar'
-import Header from '../../Components/Header/Header'
+import ErrorBox from '../../../Components/ErrorBox/ErrorBox'
+import Sidebar from '../../../Components/Sidebar/Sidebar'
+import Header from '../../../Components/Header/Header'
 export default function Orders() {
   return (
     <>
