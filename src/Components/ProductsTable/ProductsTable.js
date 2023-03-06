@@ -84,7 +84,7 @@ export default function ProductsTable({getAllProducts,allProducts}) {
                                     <th className='fw-bold'>عکس</th>
                                     <th className='fw-bold'>اسم</th>
                                     <th className='fw-bold'>قیمت</th>
-                                    <th className='fw-bold'>موجودی</th>
+                                    <th className='fw-bold'>دسته بندی</th>
                                     <th className='fw-bold'>توضیحات</th>
                                     <th className='fw-bold'>عملیات</th>
                                 </tr>
@@ -92,21 +92,21 @@ export default function ProductsTable({getAllProducts,allProducts}) {
                             <tbody>
                                 {
                                     allProducts.map((pr) => (
-                                        <tr key={pr.id} style={{ verticalAlign: "middle" }}>
+                                        <tr key={pr._id} style={{ verticalAlign: "middle" }}>
                                             <td>
-                                                <img className='tb-pr-img' src={pr.img} alt="" />
+                                                <img className='tb-pr-img' src={pr.cover} alt="" />
                                             </td>
                                             <td>
-                                                {pr.title}
+                                                {pr.name}
                                             </td>
                                             <td>
                                                 {pr.price.toLocaleString()}
                                             </td>
                                             <td>
-                                                {pr.count}
+                                                {pr.categoryID}
                                             </td>
                                             <td>
-                                                {pr.descript}
+                                                {pr.description}
                                             </td>
                                             <td>
                                                 <div className='d-flex justify-content-center'>

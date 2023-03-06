@@ -3,9 +3,9 @@
     margin-bottom: 1rem;
 }
 
-input.form-control{
-    direction: ltr;
-}
+    /* input.form-control{
+        direction: ltr;
+    } */
 
 .form-control:focus {
     box-shadow:-3px 5px 9px 1px rgb(0, 0, 0 ,0.5) !important;

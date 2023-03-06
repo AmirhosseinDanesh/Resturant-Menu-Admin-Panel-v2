@@ -12,9 +12,12 @@ export default function Products() {
   }, [])
 
   const getAllProducts = () => {
-    fetch(`${Data.url}/products/`)
+    fetch(`${Data.url}/courses/`)
       .then(res => res.json())
-      .then(products => setAllProducts(products))
+      .then(products => {
+        setAllProducts(products)
+        console.log(products)
+      })
 
   }
 

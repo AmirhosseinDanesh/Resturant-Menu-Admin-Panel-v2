@@ -26,10 +26,10 @@ export default function Register() {
                 value: "",
                 isValid: false,
             },
-            // phone: {
-            //     value: "",
-            //     isValid: false,
-            // },
+            phone: {
+                value: "",
+                isValid: false,
+            },
             password: {
                 value: "",
                 isValid: false,
@@ -46,10 +46,10 @@ export default function Register() {
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
             confirmPassword : formState.inputs.password.value,
-            // phone : formState.inputs.phone.value,
+            phone : formState.inputs.phone.value,
         }
 
-        fetch(`${Data.url}/v1/auth/register` , {
+        fetch(`${Data.url}/auth/register` , {
             method: "POST" , 
             headers: {
                 "Content-Type" : "application/json"
@@ -122,7 +122,7 @@ export default function Register() {
                                 onInputHandler={onInputHandler}
                             />
                         </div>
-                        {/* <div className="form-group mb-3">
+                        <div className="form-group mb-3">
                             <label className='input-label' >شماره تلفن</label>
                             <Input
                                 id="phone"
@@ -137,7 +137,7 @@ export default function Register() {
                                 ]}
                                 onInputHandler={onInputHandler}
                             />
-                        </div> */}
+                        </div>
                         <div className="form-group mb-3">
                             <label className='input-label' placeholder='خود را وارد کنید'>رمز عبور</label>
                             <Input

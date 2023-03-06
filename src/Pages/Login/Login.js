@@ -38,7 +38,7 @@ export default function Login() {
             password: formState.inputs.password.value,
         }
 
-        fetch(`${Data.url}/v1/auth/login`, {
+        fetch(`${Data.url}/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -61,7 +61,7 @@ export default function Login() {
                     buttons: "ورود به پنل",
                 }).then(() => {
                     auth.login({}, result.accessToken);
-                    navigate("/p-admin");
+                    navigate("/p-admin/");
                 });
             })
             .catch((err) => {

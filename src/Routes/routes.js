@@ -8,6 +8,7 @@ import Register from "../Pages/Register/Register"
 import PrivateRoutes from "../Components/Private/PrivateRoutes"
 import AdminPanel from "../Pages/Admin-Panel/AdminPanel"
 import Index from "../Pages/Admin-Panel/Index/Index"
+import Category from "../Pages/Admin-Panel/Category/Category"
 
 const routes = [
     // {path: "/" , element: <Index />},
@@ -35,6 +36,7 @@ const routes = [
             { path: "offs", element: <Offs /> },
             { path: "login", element: <Login /> },
             { path: "register", element: <Register /> },
+            { path: "category", element: <Category /> },
         ]
     }
 
