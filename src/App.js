@@ -26,10 +26,11 @@ export default function App() {
     setUserInfo({})
     localStorage.removeItem("user")
   },[])
+
   useEffect(() => {
     const localStorageData = JSON.parse(localStorage.getItem("user"))
     if (localStorageData) {
-      fetch(`http://localhost:4000/v1/auth/me`, {
+      fetch(`${Data.url}/auth/me`, {
         headers: {
           Authorization: `Bearer ${localStorageData.token}`
         }
@@ -54,3 +55,4 @@ export default function App() {
     </authContext.Provider >
   )
 }
+

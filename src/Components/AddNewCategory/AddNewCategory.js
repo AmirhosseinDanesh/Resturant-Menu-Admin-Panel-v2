@@ -40,11 +40,11 @@ export default function AddNewCategory({ getAllCategory }) {
             <div className="form-row d-flex justify-content-around mt-2 mt-md-3">
                 <div className="form-group col-md-5 col-6 p-1">
                     <label className='input-label'> نام دسته بندی</label>
-                    <input type="text" className="form-control" placeholder="سنتی" value={newCategoryTitle} onChange={(e) => { setNewCategoryTitle(e.target.value) }} />
+                    <input type="text" className="form-control" placeholder="تست (فارسی)" value={newCategoryTitle} onChange={(e) => { setNewCategoryTitle(e.target.value) }} />
                 </div>
                 <div className="form-group col-md-5 col-6 p-1">
                     <label className='input-label'>لینک دسته بندی</label>
-                    <input type="text" className="form-control" placeholder="sonati" value={newCategoryName} onChange={(e) => { setNewCategoryName(e.target.value) }} />
+                    <input type="text" className="form-control" placeholder="test (انگلیسی)" value={newCategoryName} onChange={(e) => { setNewCategoryName(e.target.value) }} />
                 </div>
             </div>
             <div className="form-group d-flex justify-content-center">

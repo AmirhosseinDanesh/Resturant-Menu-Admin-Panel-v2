@@ -16,7 +16,6 @@ export default function Products() {
       .then(res => res.json())
       .then(products => {
         setAllProducts(products)
-        console.log(products)
       })
 
   }

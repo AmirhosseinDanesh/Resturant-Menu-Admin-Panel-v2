@@ -28,8 +28,11 @@ export default function Login() {
         false
     );
     useEffect(() => {
-
-    })
+        if (auth.isLoggedIn) {
+            navigate("/p-admin");
+        }
+    }, [auth.isLoggedIn, navigate]);
+    
     const userLogin = (event) => {
         event.preventDefault();
 
@@ -61,7 +64,7 @@ export default function Login() {
                     buttons: "ورود به پنل",
                 }).then(() => {
                     auth.login({}, result.accessToken);
-                    navigate("/p-admin/");
+
                 });
             })
             .catch((err) => {
@@ -77,6 +80,7 @@ export default function Login() {
     const recaptchaHandler = () => {
         setIsCaptchaChecked(true)
     }
+
     return (
         <>
             <div className="loginformbg col-12 d-flex justify-content-center">
@@ -120,7 +124,7 @@ export default function Login() {
                         </div>
                         <div className="form-check">
                             <input type="checkbox" className="form-check-input" element="input" />
-                            <label className="form-check-label" for="exampleCheck1">مرا به خاطر بسپار</label>
+                            <label className="form-check-label">مرا به خاطر بسپار</label>
                         </div>
                         {/* <div className="form-check captchadiv">
                             <ReCAPTCHA

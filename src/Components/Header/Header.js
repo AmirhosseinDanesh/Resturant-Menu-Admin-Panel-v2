@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState,useEffect } from 'react'
 import "./Header.css"
 import { AiOutlineBell } from "react-icons/ai"
 import { FiSettings } from "react-icons/fi"
@@ -20,9 +20,14 @@ export default function Header() {
             buttons: "بستن"
         }).then(() => {
             auth.logout()
-            navigate("/login")
+            
         })
     }
+    useEffect(() => {
+        if (!auth.isLoggedIn) {
+            navigate("/login");
+        }
+    }, [auth.isLoggedIn, navigate]);
 
     return (
         <>
