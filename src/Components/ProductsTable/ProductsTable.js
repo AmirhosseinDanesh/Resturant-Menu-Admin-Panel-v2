@@ -1,88 +1,114 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./ProductsTable.css"
 import DeleteModal from "../../Components/DeleteModal/DeleteModal"
 import DetailModals from '../DetailModals/DetailModals'
 import EditModal from '../../Components/EditModal/EditModal';
 import ErrorBox from '../../Components/ErrorBox/ErrorBox'
 import Data from '../../Data/Data';
-export default function ProductsTable({getAllProducts,allProducts}) {
-
-    const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
-    const [isShowDetailModal, setIsShowDetailModal] = useState(false)
+import swal from 'sweetalert';
+export default function ProductsTable({ getAllProducts, allProducts }) {
     const [isShowEditModal, setIsShowEditModal] = useState(false)
-
     const [productID, setProductID] = useState(null)
-
-    const [productDetail, setProductDetail] = useState({})
-
-    const [productsNewTitle, setProductsNewTitle] = useState("")
+    const [productsNewName, setProductsNewName] = useState("")
     const [productsNewPrice, setProductsNewPrice] = useState("")
-    const [productsNewCount, setProductsNewCount] = useState("")
-    const [productsNewImg, setProductsNewImg] = useState("")
-    const [productsNewPopularity, setProductsNewPopularity] = useState("")
-    const [productsNewSale, setProductsNewSale] = useState("")
-    const [productsNewColors, setProductsNewColors] = useState("")
-    const [productsNewdescript, setProductsNewdescript] = useState("")
+    const [productsNewShortName, setProductsNewShortName] = useState("")
+    const [productsNewCover, setProductsNewCover] = useState("")
+    const [productsNewdescription, setProductsNewdescription] = useState("")
+    const [productsNewCategory, setProductsNewCategory] = useState("")
+    const [categories, setCategories] = useState([]);
 
-    const deleteModalCancel = () => {
-        setIsShowDeleteModal(false)
-    }
+    useEffect(() => {
+        fetch(`${Data.url}/category`)
+            .then((res) => res.json())
+            .then((allCategories) => {
+                setCategories(allCategories);
+            });
+    })
 
-    const deleteModalSubmit = () => {
+    const removeCourse = (courseID) => {
+        const localStorageData = JSON.parse(localStorage.getItem("user"));
+        swal({
+            title: "آیا از حذف محصول اطمینان داری؟",
+            icon: "warning",
+            buttons: ["نه", "آره"],
+        }).then((result) => {
+            if (result) {
+                fetch(`${Data.url}/courses/${courseID}`, {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${localStorageData.token}`,
+                    },
+                }).then((res) => {
+                    if (res.ok) {
+                        swal({
+                            title: "محصول موردنظر با موفقیت حذف شد",
+                            icon: "success",
+                            buttons: "اوکی",
+                        }).then(() => {
+                            getAllProducts();
+                        });
+                    } else {
+                        swal({
+                            title: "حذف محصول با مشکلی مواجه شد",
+                            icon: "error",
+                            buttons: "اوکی",
+                        });
+                    }
+                });
+            }
+        });
+    };
 
-        fetch(`${Data.url}/products/${productID}`, { method: 'DELETE' })
-            .then(res => res.json())
-            .then(data => {
-                setIsShowDeleteModal(false)
-                getAllProducts()
-            })
 
-    }
-
-    const closeDetailModal = () => {
-        setIsShowDetailModal(false)
-    }
-
+    const selectNewCategory = (event) => {
+        setProductsNewCategory(event.target.value);
+    };
     const closeEditModal = () => {
         setIsShowEditModal(false)
     }
+    const LocalStorageData = JSON.parse(localStorage.getItem("user"))
+
     const submitEditModal = () => {
 
         const productNewData = {
-            title: productsNewTitle,
+            name: productsNewName,
+            description: productsNewdescription,
+            shortName: productsNewShortName,
+            cover: productsNewCover,
             price: productsNewPrice,
-            count: productsNewCount,
-            img: productsNewImg,
-            popularity: productsNewPopularity,
-            sale: productsNewSale,
-            colors: productsNewColors,
-            descript: productsNewdescript
+            categoryID: productsNewCategory,
         }
-        fetch(`${Data.url}/products/${productID}`, {
+
+        console.log(productNewData)
+
+        fetch(`${Data.url}/courses/${productID}`, {
             method: "PUT",
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${LocalStorageData.token}`
             },
             body: JSON.stringify(productNewData)
-        }).then(res => res.json())
-            .then(result => {
-                setIsShowEditModal(false)
-                getAllProducts()
-            })
+        }).then(res => { console.log(res) })
+        //     .then(result => {
+        //      
+        //         getAllProducts()
+        //     })
 
 
     }
 
+    const sortedProducts = (allProducts.sort((a, b) => a.shortName - b.shortName)).reverse()
     return (
         <>
             <div className='mt-3 '>
                 <div className="table-responsive">
                     {
-                        allProducts.length ? (<table className="table  text-center">
+                        sortedProducts.length ? (<table className="table  text-center">
                             <thead>
                                 <tr>
                                     <th className='fw-bold'>عکس</th>
                                     <th className='fw-bold'>اسم</th>
+                                    <th className='fw-bold'>جایگاه</th>
                                     <th className='fw-bold'>قیمت</th>
                                     <th className='fw-bold'>دسته بندی</th>
                                     <th className='fw-bold'>توضیحات</th>
@@ -94,10 +120,13 @@ export default function ProductsTable({getAllProducts,allProducts}) {
                                     allProducts.map((pr) => (
                                         <tr key={pr._id} style={{ verticalAlign: "middle" }}>
                                             <td>
-                                                <img className='tb-pr-img' src={pr.cover} alt="" />
+                                                <img className='tb-pr-img' src={`${Data.urlnotV1}/courses/covers/${pr.cover}`} alt="" />
                                             </td>
                                             <td>
                                                 {pr.name}
+                                            </td>
+                                            <td>
+                                                {pr.shortName}
                                             </td>
                                             <td>
                                                 {pr.price.toLocaleString()}
@@ -110,27 +139,19 @@ export default function ProductsTable({getAllProducts,allProducts}) {
                                             </td>
                                             <td>
                                                 <div className='d-flex justify-content-center'>
-                                                    <button className="btn text-white ms-2 btn-sm btn-info" onClick={() => {
-                                                        setIsShowDetailModal(true)
-                                                        setProductDetail(pr)
-                                                    }}
-                                                    >جزئیات</button>
                                                     <button className="btn text-white ms-2 btn-sm btn-danger" onClick={() => {
-                                                        setIsShowDeleteModal(true)
-                                                        setProductID(pr.id)
+                                                        setProductID(pr._id)
+                                                        removeCourse(pr._id)
                                                     }}>حذف</button>
                                                     <button className="btn text-white ms-2 btn-sm btn-primary" onClick={() => {
                                                         setIsShowEditModal(true)
-                                                        setProductID(pr.id)
-                                                        setProductDetail(pr)
-                                                        setProductsNewTitle(pr.title)
+                                                        setProductID(pr._id)
+                                                        setProductsNewName(pr.name)
+                                                        setProductsNewdescription(pr.description)
+                                                        setProductsNewShortName(pr.shortName)
                                                         setProductsNewPrice(pr.price)
-                                                        setProductsNewCount(pr.count)
-                                                        setProductsNewImg(pr.img)
-                                                        setProductsNewPopularity(pr.popularity)
-                                                        setProductsNewSale(pr.sale)
-                                                        setProductsNewColors(pr.colors)
-                                                        setProductsNewdescript(pr.descript)      
+                                                        setProductsNewCover(pr.cover)
+                                                        setProductsNewCategory(pr.categoryID)
                                                     }}
                                                     >ویرایش</button>
                                                 </div>
@@ -140,102 +161,62 @@ export default function ProductsTable({getAllProducts,allProducts}) {
                                 }
 
                             </tbody>
-                        </table>) : (
+                        </table>
+                        ) : (
                             <ErrorBox msg="هیچ محصولی یافت نشد!" />
                         )
                     }
                 </div>
             </div>
 
-            {
-                isShowDeleteModal && <DeleteModal cancel={deleteModalCancel} submit={deleteModalSubmit} title={"آیا از حذف محصول اطمینان دارید؟"}/>
-            }
-
-            {
-                isShowDetailModal && <DetailModals onHide={closeDetailModal} >
-                    <table className="table text-center">
-                        <thead>
-                            <tr>
-                                <th>اسم</th>
-                                <th>قیمت</th>
-                                <th>موجودی</th>
-                                <th>رنگ</th>
-                                <th>محبوبیت</th>
-                                <th>میزان فروش</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style={{ verticalAlign: "middle" }}>
-                                <td>
-                                    {productDetail.title}
-                                </td>
-                                <td>
-                                    {productDetail.price.toLocaleString()}
-                                </td>
-                                <td>
-                                    {productDetail.count}
-                                </td>
-                                <td>
-                                    {productDetail.colors}
-                                </td>
-                                <td>
-                                    {productDetail.popularity}%
-                                </td>
-                                <td>
-                                    {productDetail.sale}
-                                </td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                </DetailModals>
-
-            }
 
             {
                 isShowEditModal && <EditModal onHide={closeEditModal} submit={submitEditModal} >
                     <div className="form-row d-flex justify-content-center flex-wrap mt-2 mt-md-3">
                         <div className="form-group col-md-5 col-6 p-1">
-                            <input type="text" className="form-control" placeholder="نام محصول" value={productsNewTitle} onChange={(event) => {
-                                setProductsNewTitle(event.target.value)
-                                
+                            <label className="form-label fw-bold">نام جدید</label>
+                            <input type="text" className="form-control" placeholder="نام محصول" value={productsNewName} onChange={(event) => {
+                                setProductsNewName(event.target.value)
                             }} />
                         </div>
                         <div className="form-group col-md-5 col-6 p-1">
+                            <label className="form-label fw-bold">توضیحات جدید</label>
+                            <input type="text" className="form-control" placeholder="توضیحات محصول" value={productsNewdescription} onChange={(event) => {
+                                setProductsNewdescription(event.target.value)
+                            }} />
+                        </div>
+                        <div className="form-group col-md-5 col-6 p-1">
+                            <label className="form-label fw-bold">قیمت جدید</label>
                             <input type="text" className="form-control" placeholder="قیمت محصول" value={productsNewPrice.toLocaleString()} onChange={(event) => {
                                 setProductsNewPrice(event.target.value)
                             }} />
                         </div>
                         <div className="form-group col-md-5 col-6 p-1">
-                            <input type="text" className="form-control" placeholder="موجودی محصول" value={productsNewCount} onChange={(event) => {
-                                setProductsNewCount(event.target.value)
+                            <label className="form-label fw-bold">تصویر جدید</label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                id="file"
+                                onChange={(event) => {
+                                    setProductsNewCover(event.target.files[0]);
+                                }}
+                            />
+                        </div>
+                        <div className="form-group col-md-5 col-6 p-1">
+                            <label className="form-label fw-bold">جایگاه جدید</label>
+                            <input type="text" className="form-control" placeholder="جایگاه محصول" value={productsNewShortName} onChange={(event) => {
+                                setProductsNewShortName(event.target.value)
                             }} />
                         </div>
                         <div className="form-group col-md-5 col-6 p-1">
-                            <input type="text" className="form-control" placeholder="تصویر محصول" value={productsNewImg} onChange={(event) => {
-                                setProductsNewImg(event.target.value)
-                            }} />
-                        </div>
-                        <div className="form-group col-md-5 col-6 p-1">
-                            <input type="text" className="form-control" placeholder="محبوبیت محصول" value={productsNewPopularity} onChange={(event) => {
-                                setProductsNewPopularity(event.target.value)
-                            }} />
-                        </div>
-                        <div className="form-group col-md-5 col-6 p-1">
-                            <input type="text" className="form-control" placeholder="میزان فروش" value={productsNewSale} onChange={(event) => {
-                                setProductsNewSale(event.target.value)
-                            }} />
-                        </div>
-                        <div className="form-group col-md-5 col-6 p-1">
-                            <input type="text" className="form-control" placeholder="رنگ محصول" value={productsNewColors} onChange={(event) => {
-                                setProductsNewColors(event.target.value)
-                            }} />
-                        </div>
-                        <div className="form-group col-md-5 col-6 p-1">
-                            <input type="text" className="form-control" placeholder="توضیحات محصول" value={productsNewdescript} onChange={(event) => {
-                                setProductsNewdescript(event.target.value)
-                            }} />
+                            <label className="form-label fw-bold">دسته بندی جدید</label>
+                            <select className="form-select" onChange={selectNewCategory}>
+                                {
+                                    categories.map(ct => (
+                                        <option key={ct._id} value={ct._id}>{ct.title}</option>
+                                    ))
+                                }
+                            </select>
                         </div>
                         <div className="form-group col-md-5 col-6 p-1">
                         </div>

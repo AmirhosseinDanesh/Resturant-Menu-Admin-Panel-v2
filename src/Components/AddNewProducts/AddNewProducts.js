@@ -41,7 +41,6 @@ export default function AddNewProducts({ getAllProducts }) {
 
     useEffect(() => {
         getAllCourses();
-        console.log(courseStatus)
         fetch(`${Data.url}/category`)
             .then((res) => res.json())
             .then((allCategories) => {
@@ -58,44 +57,11 @@ export default function AddNewProducts({ getAllProducts }) {
         })
             .then((res) => res.json())
             .then((allCourses) => {
-                console.log(allCourses);
                 setCourses(allCourses);
             });
     }
 
-    const removeCourse = (courseID) => {
-        const localStorageData = JSON.parse(localStorage.getItem("user"));
-        swal({
-            title: "آیا از حذف محصول اطمینان داری؟",
-            icon: "warning",
-            buttons: ["نه", "آره"],
-        }).then((result) => {
-            if (result) {
-                fetch(`http://localhost:4000/v1/courses/${courseID}`, {
-                    method: "DELETE",
-                    headers: {
-                        Authorization: `Bearer ${localStorageData.token}`,
-                    },
-                }).then((res) => {
-                    if (res.ok) {
-                        swal({
-                            title: "محصول موردنظر با موفقیت حذف شد",
-                            icon: "success",
-                            buttons: "اوکی",
-                        }).then(() => {
-                            getAllCourses();
-                        });
-                    } else {
-                        swal({
-                            title: "حذف محصول با مشکلی مواجه شد",
-                            icon: "error",
-                            buttons: "اوکی",
-                        });
-                    }
-                });
-            }
-        });
-    };
+    
 
     const selectCategory = (event) => {
         setCourseCategory(event.target.value);
@@ -120,14 +86,14 @@ export default function AddNewProducts({ getAllProducts }) {
                 icon: "error",
             });
         } else {
-            fetch(`http://localhost:4000/v1/courses`, {
+            fetch(`${Data.url}/courses/`, {
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${localStorageData.token}`,
+                    "Authorization": `Bearer ${localStorageData.token}`,
                 },
                 body: formData,
             }).then((res) => {
-                console.log(res);
+                console.log(res)
                 if (res.ok) {
                     swal({
                         title: "محصول جدید با موفقیت اضافه شد",
@@ -164,7 +130,7 @@ export default function AddNewProducts({ getAllProducts }) {
                         onInputHandler={onInputHandler}
                         validations={[minValidator(5)]}
                         type="text"
-                        placeholder="لطفا توضیحات دوره را وارد کنید..."
+                        placeholder="لطفا توضیحات محصول را وارد کنید..."
                         className="form-control"
 
                     />
@@ -172,15 +138,15 @@ export default function AddNewProducts({ getAllProducts }) {
             </div>
             <div className="form-row d-flex justify-content-around mt-2 mt-md-3">
                 <div className="form-group col-md-5 col-6 p-1">
-                    <label className="form-label fw-bold">لینک</label>
+                    <label className="form-label fw-bold">جایگاه</label>
                     <Input
                         id="shortName"
                         element="input"
                         onInputHandler={onInputHandler}
-                        validations={[minValidator(5)]}
+                        validations={[minValidator(1)]}
                         type="text"
                         isValid="false"
-                        placeholder="لطفا لینک دوره را وارد کنید..."
+                        placeholder="لطفا جایگاه محصول را وارد کنید..."
                         className="form-control"
 
                     />
@@ -194,9 +160,8 @@ export default function AddNewProducts({ getAllProducts }) {
                         validations={[minValidator(5)]}
                         type="text"
                         isValid="false"
-                        placeholder="لطفا قیمت دوره را وارد کنید..."
+                        placeholder="لطفا قیمت محصول را وارد کنید..."
                         className="form-control"
-
                     />
                 </div>
             </div>
@@ -212,7 +177,7 @@ export default function AddNewProducts({ getAllProducts }) {
                     </select>
                 </div>
                 <div className="form-group col-md-5 col-6 p-1">
-                    <label className="form-label fw-bold">عکس دوره</label>
+                    <label className="form-label fw-bold">عکس محصول</label>
                     <input
                         type="file"
                         className="form-control"
