@@ -23,6 +23,19 @@ const formReducer = (state, action) => {
         isFormValid: isFormValid
       }
     }
+    case "RESET": {
+  const resetInputs = {};
+  for (const inputID in state.inputs) {
+    resetInputs[inputID] = {
+      value: "",
+      isValid: false
+    };
+  }
+  return {
+    inputs: resetInputs,
+    isFormValid: false // اضافه کردن field جدید
+  };
+}
     default: {
       return state;
     }
@@ -42,7 +55,11 @@ export const useForm = (initInputs, initFormIsValid) => {
       isValid,
       inputID: id,
     });
-  } , []);
+  }, []);
 
-  return [formState, onInputHandler];
+  const resetForm = useCallback(() => {
+    dispatch({ type: "RESET" });
+  }, []);
+  
+  return [formState, onInputHandler , resetForm];
 };

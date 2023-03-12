@@ -7,13 +7,13 @@ import Input from '../Forms/Input';
 import { requiredValidator, minValidator, maxValidator } from "../../Validator/rules"
 
 export default function AddNewProducts({ getAllProducts }) {
-    const [courses, setCourses] = useState([]);
+
     const [courseCategory, setCourseCategory] = useState("-1");
     const [categories, setCategories] = useState([]);
     const [courseStatus, setCourseStatus] = useState("start");
     const [courseCover, setCourseCover] = useState({});
 
-    const [formState, onInputHandler] = useForm(
+    const [formState, onInputHandler, resetForm] = useForm(
         {
             name: {
                 value: "",
@@ -40,30 +40,25 @@ export default function AddNewProducts({ getAllProducts }) {
     );
 
     useEffect(() => {
-        getAllCourses();
-        fetch(`${Data.url}/category`)
-            .then((res) => res.json())
-            .then((allCategories) => {
-                setCategories(allCategories);
-            });
-    }, []);
+        getAllProducts()
+        if (categories.length === 0) {
+            fetch(`${Data.url}/category`)
+                .then((res) => res.json())
+                .then((allCategories) => {
+                    setCategories(allCategories);
+                });
+        }
+    }, [setCategories]);
 
-    function getAllCourses() {
-        const localStorageData = JSON.parse(localStorage.getItem("user"));
-        fetch(`${Data.url}/courses`, {
-            headers: {
-                Authorization: `Bearer ${localStorageData.token}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((allCourses) => {
-                setCourses(allCourses);
-            });
+    const emptyInput = () => {
+        resetForm(); // حذف پارامتر
     }
 
-    
+
+
 
     const selectCategory = (event) => {
+        console.log(courseCategory)
         setCourseCategory(event.target.value);
     };
 
@@ -76,7 +71,7 @@ export default function AddNewProducts({ getAllProducts }) {
         formData.append("shortName", formState.inputs.shortName.value);
         formData.append("categoryID", courseCategory);
         formData.append("price", formState.inputs.price.value);
-        formData.append("support", formState.inputs.name.value);
+        formData.append("support", formState.inputs.support.value);
         formData.append("status", courseStatus);
         formData.append("cover", courseCover);
 
@@ -100,12 +95,14 @@ export default function AddNewProducts({ getAllProducts }) {
                         icon: "success",
                         buttons: "اوکی",
                     }).then(() => {
-                        getAllCourses();
+                        emptyInput();
+                        getAllProducts();
                     });
                 }
             });
         }
     };
+
 
     return (
         <form action="#">
@@ -169,6 +166,7 @@ export default function AddNewProducts({ getAllProducts }) {
                 <div className="form-group col-md-5 col-6 p-1">
                     <label className="form-label fw-bold">دسته بندی محصول</label>
                     <select className="form-select" onChange={selectCategory}>
+                        <option value={-1}>انتخاب کنید</option>
                         {
                             categories.map(ct => (
                                 <option key={ct._id} value={ct._id}>{ct.title}</option>

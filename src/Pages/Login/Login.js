@@ -29,7 +29,7 @@ export default function Login() {
     );
     useEffect(() => {
         if (auth.isLoggedIn) {
-            navigate("/p-admin");
+            navigate("/p-admin/");
         }
     }, [auth.isLoggedIn, navigate]);
     

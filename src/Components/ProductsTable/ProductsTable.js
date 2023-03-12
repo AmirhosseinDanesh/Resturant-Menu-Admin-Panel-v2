@@ -6,24 +6,60 @@ import EditModal from '../../Components/EditModal/EditModal';
 import ErrorBox from '../../Components/ErrorBox/ErrorBox'
 import Data from '../../Data/Data';
 import swal from 'sweetalert';
+
 export default function ProductsTable({ getAllProducts, allProducts }) {
     const [isShowEditModal, setIsShowEditModal] = useState(false)
     const [productID, setProductID] = useState(null)
+    const [categories, setCategories] = useState([]);
+    
     const [productsNewName, setProductsNewName] = useState("")
     const [productsNewPrice, setProductsNewPrice] = useState("")
     const [productsNewShortName, setProductsNewShortName] = useState("")
     const [productsNewCover, setProductsNewCover] = useState("")
     const [productsNewdescription, setProductsNewdescription] = useState("")
     const [productsNewCategory, setProductsNewCategory] = useState("")
-    const [categories, setCategories] = useState([]);
+    const [productNewStatus, setProductNewStatus] = useState("")
+
+    let updateWithButton = (status) => {
+        console.log(productID)
+
+        const productNewData = {
+            name: productsNewName,
+            description: productsNewdescription,
+            shortName: productsNewShortName,
+            cover: productsNewCover,
+            price: productsNewPrice,
+            categoryID: productsNewCategory,
+            status: status
+        }
+
+        
+
+        fetch(`${Data.url}/courses/${productID}`, {
+            method: "PUT",
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${LocalStorageData.token}`
+            },
+            body: JSON.stringify(productNewData)
+        }).then(res => res.json())
+
+    }
+
+
 
     useEffect(() => {
+        getAllProducts()
+        
         fetch(`${Data.url}/category`)
-            .then((res) => res.json())
-            .then((allCategories) => {
-                setCategories(allCategories);
-            });
-    })
+                .then((res) => res.json())
+                .then((allCategories) => {
+                    setCategories(allCategories);
+                });
+    }, [productsNewCategory]);
+
+
+
 
     const removeCourse = (courseID) => {
         const localStorageData = JSON.parse(localStorage.getItem("user"));
@@ -62,6 +98,7 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
 
     const selectNewCategory = (event) => {
         setProductsNewCategory(event.target.value);
+        console.log(productsNewCategory)
     };
     const closeEditModal = () => {
         setIsShowEditModal(false)
@@ -77,6 +114,7 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
             cover: productsNewCover,
             price: productsNewPrice,
             categoryID: productsNewCategory,
+            status: productNewStatus
         }
 
         console.log(productNewData)
@@ -88,14 +126,14 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
                 'Authorization': `Bearer ${LocalStorageData.token}`
             },
             body: JSON.stringify(productNewData)
-        }).then(res => { console.log(res) })
-        //     .then(result => {
-        //      
-        //         getAllProducts()
-        //     })
+        }).then(res => res.json())
+
+
 
 
     }
+
+
 
     const sortedProducts = (allProducts.sort((a, b) => a.shortName - b.shortName)).reverse()
     return (
@@ -106,6 +144,7 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
                         sortedProducts.length ? (<table className="table  text-center">
                             <thead>
                                 <tr>
+                                    <th className='fw-bold'>وضعیت</th>
                                     <th className='fw-bold'>عکس</th>
                                     <th className='fw-bold'>اسم</th>
                                     <th className='fw-bold'>جایگاه</th>
@@ -119,6 +158,15 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
                                 {
                                     allProducts.map((pr) => (
                                         <tr key={pr._id} style={{ verticalAlign: "middle" }}>
+                                            <td>
+                                                {
+                                                    pr.status === "start" ? (
+                                                        <span className='stock-status' />
+                                                    ) : (
+                                                        <span className='outstock-status' />
+                                                    )
+                                                }
+                                            </td>
                                             <td>
                                                 <img className='tb-pr-img' src={`${Data.urlnotV1}/courses/covers/${pr.cover}`} alt="" />
                                             </td>
@@ -152,8 +200,38 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
                                                         setProductsNewPrice(pr.price)
                                                         setProductsNewCover(pr.cover)
                                                         setProductsNewCategory(pr.categoryID)
+                                                        setProductNewStatus(pr.status)
                                                     }}
                                                     >ویرایش</button>
+                                                    {
+                                                        pr.status === "start" ? (
+                                                            <button className='btn btn-danger' onClick={() => {
+                                                                setProductID(pr._id)
+                                                                setProductsNewName(pr.name)
+                                                                setProductsNewdescription(pr.description)
+                                                                setProductsNewShortName(pr.shortName)
+                                                                setProductsNewPrice(pr.price)
+                                                                setProductsNewCover(pr.cover)
+                                                                setProductsNewCategory(pr.categoryID)
+                                                                updateWithButton("presell")
+                                                            }}>
+                                                                ناموجود
+                                                            </button>
+                                                        ) : (
+                                                            <button className='btn btn-success' onClick={() => {
+                                                                setProductID(pr._id)
+                                                                setProductsNewName(pr.name)
+                                                                setProductsNewdescription(pr.description)
+                                                                setProductsNewShortName(pr.shortName)
+                                                                setProductsNewPrice(pr.price)
+                                                                setProductsNewCover(pr.cover)
+                                                                setProductsNewCategory(pr.categoryID)
+                                                                updateWithButton("start")
+                                                            }}>
+                                                                موجود
+                                                            </button>
+                                                        )
+                                                    }
                                                 </div>
                                             </td>
                                         </tr>
@@ -211,14 +289,34 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
                         <div className="form-group col-md-5 col-6 p-1">
                             <label className="form-label fw-bold">دسته بندی جدید</label>
                             <select className="form-select" onChange={selectNewCategory}>
+
+
                                 {
                                     categories.map(ct => (
-                                        <option key={ct._id} value={ct._id}>{ct.title}</option>
+                                        <option value={ct._id} selected={ct._id === productsNewCategory}>
+                                            {ct.title}
+                                        </option>
                                     ))
                                 }
+
                             </select>
                         </div>
-                        <div className="form-group col-md-5 col-6 p-1">
+                        <div className='col-10 d-flex justify-content-center'>
+                            <div className="form-group col-md-4 col-6 p-1 d-flex justify-content-around align-items-center mt-2">
+                                {
+                                    productNewStatus === "start" ? (
+                                        <>
+                                            <label className="form-label mb-0" for="customCheck1">ناموجود کردن</label>
+                                            <input type="radio" value="presell" className="custom-control-input" onInput={(event) => setProductNewStatus(event.target.value)} />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <label className="form-label mb-0" for="customCheck1">موجود کردن</label>
+                                            <input type="radio" value="start" className="custom-control-input" onInput={(event) => setProductNewStatus(event.target.value)} />
+                                        </>
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
                 </EditModal>

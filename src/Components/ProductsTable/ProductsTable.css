@@ -11,6 +11,21 @@
   width: 60px;
 }
 
+.stock-status{
+  height: 25px;
+  width: 25px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+}
+.outstock-status{
+  height: 25px;
+  width: 25px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 @media (min-width: 769px) {
   .table {
     font-size: 1rem;

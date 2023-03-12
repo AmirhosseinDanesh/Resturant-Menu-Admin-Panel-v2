@@ -7,18 +7,21 @@ import Sidebar from '../../../Components/Sidebar/Sidebar'
 import Header from '../../../Components/Header/Header'
 export default function Products() {
   const [allProducts, setAllProducts] = useState([])
+
   useEffect(() => {
     getAllProducts()
   }, [])
 
-  const getAllProducts = () => {
+    const getAllProducts = () => {
     fetch(`${Data.url}/courses/`)
       .then(res => res.json())
       .then(products => {
-        setAllProducts(products)
+        if (JSON.stringify(allProducts) !== JSON.stringify(products)) {
+          setAllProducts(products);
+        }
       })
-
   }
+  
 
   return (
     <>
