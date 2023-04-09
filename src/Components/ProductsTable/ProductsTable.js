@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import "./ProductsTable.css"
-import DeleteModal from "../../Components/DeleteModal/DeleteModal"
 import EditModal from '../../Components/EditModal/EditModal';
 import ErrorBox from '../../Components/ErrorBox/ErrorBox'
 import Data from '../../Data/Data';
