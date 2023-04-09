@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "./static/css/main.f5fccb9c.css",
+    "main.js": "./static/js/main.b20f4ee5.js",
+    "static/media/IRANSansLight.ttf": "./static/media/IRANSansLight.aaa5b66a4f21c752271a.ttf",
+    "static/media/IRANSans.ttf": "./static/media/IRANSans.b405362106aecf6bb79b.ttf",
+    "static/media/IRANSansBold.ttf": "./static/media/IRANSansBold.7b24440c064dfaea5f07.ttf",
+    "static/media/IRANSansUltraLight.ttf": "./static/media/IRANSansUltraLight.28c842dade8e2a73ef32.ttf",
+    "static/media/IRANSansMedium.ttf": "./static/media/IRANSansMedium.eca9e67a26709d257df6.ttf",
+    "index.html": "./index.html",
+    "main.f5fccb9c.css.map": "./static/css/main.f5fccb9c.css.map",
+    "main.b20f4ee5.js.map": "./static/js/main.b20f4ee5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f5fccb9c.css",
+    "static/js/main.b20f4ee5.js"
+  ]
+}

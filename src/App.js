@@ -4,9 +4,6 @@ import authContext from './Contexts/authContext'
 import Data from './Data/Data'
 import routes from './Routes/routes'
 
-
-
-
 import "./App.css"
 
 export default function App() {

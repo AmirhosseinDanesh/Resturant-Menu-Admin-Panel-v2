@@ -9,20 +9,19 @@ import Button from "../../Components/Forms/button"
 import authContext from '../../Contexts/authContext'
 import swal from "sweetalert"
 import { useNavigate } from 'react-router-dom';
-import ReCAPTCHA from "react-google-recaptcha";
+
 export default function Login() {
     const auth = useContext(authContext)
     const navigate = useNavigate()
-    const [isCaptchaChecked, setIsCaptchaChecked] = useState(false)
     const [formState, onInputHandler] = useForm(
         {
             username: {
                 value: "",
-                isValid: false,
+                isValid: true,
             },
             password: {
                 value: "",
-                isValid: false,
+                isValid: true,
             },
         },
         false
@@ -77,9 +76,6 @@ export default function Login() {
 
     };
 
-    const recaptchaHandler = () => {
-        setIsCaptchaChecked(true)
-    }
 
     return (
         <>
@@ -101,7 +97,6 @@ export default function Login() {
                                     requiredValidator(),
                                     minValidator(8),
                                     maxValidator(30),
-                                    // emailValidator()
                                 ]}
                                 onInputHandler={onInputHandler}
                             />
@@ -126,23 +121,14 @@ export default function Login() {
                             <input type="checkbox" className="form-check-input" element="input" />
                             <label className="form-check-label">مرا به خاطر بسپار</label>
                         </div>
-                        {/* <div className="form-check captchadiv">
-                            <ReCAPTCHA
-                                sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-                                onChange={recaptchaHandler}
-                            />
-                        </div> */}
                         <div className="d-flex align-items-center justify-content-between ">
                             <Button
                                 className={`submitbtn-login btn fw-bold ${(formState.isFormValid)
-                                    // className={`submitbtn-login btn fw-bold ${(formState.isFormValid && isCaptchaChecked)
                                     ? "btn-success"
                                     : "btn-danger"
                                     }`}
                                 type="submit"
                                 onClick={userLogin}
-                                disabled={!formState.isFormValid}
-                            // disabled={!formState.isFormValid || !isCaptchaChecked}
                             >
                                 ورود
                             </Button>

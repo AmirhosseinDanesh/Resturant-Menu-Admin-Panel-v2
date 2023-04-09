@@ -3,61 +3,64 @@ import ErrorBox from '../ErrorBox/ErrorBox'
 import swal from 'sweetalert'
 import Data from '../../Data/Data'
 export default function CategoryTable({ allCategory, getAllCategory }) {
-    
-    
+
     const LocalStorageData = JSON.parse(localStorage.getItem("user"))
+
     const removeCategory = (id) => {
         swal({
             title: "آیا از حذف دسته بندی مورد نظر مطمعن هستید؟",
             buttons: ["خیر", "بله"]
         }).then(res => {
-            fetch(`${Data.url}/category/${id}`, {
-                method: "DELETE",
-                headers: {
-                    'Authorization': `Bearer ${LocalStorageData.token}`
-                }
-            })
-                .then(res => res.json())
-                .then(result => {
-                    swal({
-                        title: "با موفقیت حذف شد"
-                    })
-                        .then(() => [
-                            getAllCategory()
-                        ])
+            if (res) {
+
+                fetch(`${Data.url}/category/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        'Authorization': `Bearer ${LocalStorageData.token}`
+                    }
                 })
+                    .then(res => res.json())
+                    .then(result => {
+                        swal({
+                            title: "با موفقیت حذف شد"
+                        })
+                            .then(() => [
+                                getAllCategory()
+                            ])
+                    })
+            }
         })
     }
 
-    const updateCategory = (id , title)=>{
+    const updateCategory = (id, title) => {
         swal({
-            title:"عنوان جدید را وارد کنید",
+            title: "عنوان جدید را وارد کنید",
             content: {
                 element: "input",
                 attributes: {
-                  placeholder: `${title}`,
+                    placeholder: `${title}`,
                 },
-              },
-            buttons : "ثبت"
-        }).then(res=>{
-            if(res.trim().length){
-                fetch(`${Data.url}/category/${id}` , {
-                    method : "PUT",
-                    headers:{
-                        "Content-Type" : "application/json",
+            },
+            buttons: "ثبت"
+        }).then(res => {
+            if (res.trim().length) {
+                fetch(`${Data.url}/category/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
                         'Authorization': `Bearer ${LocalStorageData.token}`
                     },
-                    body : JSON.stringify({title : res})
+                    body: JSON.stringify({ title: res })
 
                 })
-                .then(res=>res.json())
-                .then(result=>{
-                    swal({
-                        title : "با موفقیت ویرایش شد"
-                    }).then(()=>{
-                        getAllCategory()
+                    .then(res => res.json())
+                    .then(result => {
+                        swal({
+                            title: "با موفقیت ویرایش شد"
+                        }).then(() => {
+                            getAllCategory()
+                        })
                     })
-                })
             }
         })
     }
@@ -90,7 +93,7 @@ export default function CategoryTable({ allCategory, getAllCategory }) {
                                             {ct.title}
                                         </td>
                                         <td>
-                                            <button className="btn text-white ms-2 btn-sm btn-primary" onClick={() => { updateCategory(ct._id,ct.title)}}
+                                            <button className="btn text-white ms-2 btn-sm btn-primary" onClick={() => { updateCategory(ct._id, ct.title) }}
                                             >ویرایش</button>
                                         </td>
                                         <td>
@@ -102,7 +105,7 @@ export default function CategoryTable({ allCategory, getAllCategory }) {
 
                         </tbody>
                     </table>) : (
-                        <ErrorBox msg="هیچ محصولی یافت نشد!" />
+                        <ErrorBox msg="هیچ دسته بندی یافت نشد!" />
                     )
                 }
             </div>

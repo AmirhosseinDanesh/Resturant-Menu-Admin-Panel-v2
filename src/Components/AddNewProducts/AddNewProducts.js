@@ -50,9 +50,7 @@ export default function AddNewProducts({ getAllProducts }) {
         }
     }, [setCategories]);
 
-    const emptyInput = () => {
-        resetForm(); // حذف پارامتر
-    }
+
 
 
 
@@ -95,14 +93,17 @@ export default function AddNewProducts({ getAllProducts }) {
                         icon: "success",
                         buttons: "اوکی",
                     }).then(() => {
-                        emptyInput();
+                        emptyInput()
                         getAllProducts();
                     });
                 }
             });
         }
     };
-
+    
+    const emptyInput = () => {
+        resetForm(); // حذف پارامتر
+    }
 
     return (
         <form action="#">
@@ -129,7 +130,6 @@ export default function AddNewProducts({ getAllProducts }) {
                         type="text"
                         placeholder="لطفا توضیحات محصول را وارد کنید..."
                         className="form-control"
-
                     />
                 </div>
             </div>
@@ -145,7 +145,6 @@ export default function AddNewProducts({ getAllProducts }) {
                         isValid="false"
                         placeholder="لطفا جایگاه محصول را وارد کنید..."
                         className="form-control"
-
                     />
                 </div>
                 <div className="form-group col-md-5 col-6 p-1">

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./ProductsTable.css"
 import DeleteModal from "../../Components/DeleteModal/DeleteModal"
-import DetailModals from '../DetailModals/DetailModals'
 import EditModal from '../../Components/EditModal/EditModal';
 import ErrorBox from '../../Components/ErrorBox/ErrorBox'
 import Data from '../../Data/Data';
@@ -11,7 +10,7 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
     const [isShowEditModal, setIsShowEditModal] = useState(false)
     const [productID, setProductID] = useState(null)
     const [categories, setCategories] = useState([]);
-    
+
     const [productsNewName, setProductsNewName] = useState("")
     const [productsNewPrice, setProductsNewPrice] = useState("")
     const [productsNewShortName, setProductsNewShortName] = useState("")
@@ -20,29 +19,41 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
     const [productsNewCategory, setProductsNewCategory] = useState("")
     const [productNewStatus, setProductNewStatus] = useState("")
 
-    let updateWithButton = (status) => {
-        console.log(productID)
+    let updateWithButton = (status,id, name, description, shortName, price, cover, catID) => {
+        console.log("cat " + catID)
+        console.log("id "+ id)
+        swal({
+            title: " آیا از تفییر وضعیت محصول مطمعن هستید؟",
+            buttons: ["خیر", "بله"]
+        }).then(res => {
+            if (res) {
+                const productNewData = {
+                    name,
+                    description,
+                    shortName,
+                    cover,
+                    price,
+                    categoryID: catID,
+                    status: status
+                }
 
-        const productNewData = {
-            name: productsNewName,
-            description: productsNewdescription,
-            shortName: productsNewShortName,
-            cover: productsNewCover,
-            price: productsNewPrice,
-            categoryID: productsNewCategory,
-            status: status
-        }
 
-        
 
-        fetch(`${Data.url}/courses/${productID}`, {
-            method: "PUT",
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${LocalStorageData.token}`
-            },
-            body: JSON.stringify(productNewData)
-        }).then(res => res.json())
+                fetch(`${Data.url}/courses/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': `Bearer ${LocalStorageData.token}`
+                    },
+                    body: JSON.stringify(productNewData)
+                }).then(res => res.json())
+                    .then(result =>{
+                        getAllProducts()
+                    })
+            }
+        })
+
+
 
     }
 
@@ -50,12 +61,12 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
 
     useEffect(() => {
         getAllProducts()
-        
+
         fetch(`${Data.url}/category`)
-                .then((res) => res.json())
-                .then((allCategories) => {
-                    setCategories(allCategories);
-                });
+            .then((res) => res.json())
+            .then((allCategories) => {
+                setCategories(allCategories);
+            });
     }, [productsNewCategory]);
 
 
@@ -95,18 +106,19 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
         });
     };
 
-
     const selectNewCategory = (event) => {
         setProductsNewCategory(event.target.value);
         console.log(productsNewCategory)
     };
+
     const closeEditModal = () => {
         setIsShowEditModal(false)
     }
+
     const LocalStorageData = JSON.parse(localStorage.getItem("user"))
 
     const submitEditModal = () => {
-
+        console.log(productID)
         const productNewData = {
             name: productsNewName,
             description: productsNewdescription,
@@ -118,6 +130,7 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
         }
 
         console.log(productNewData)
+        
 
         fetch(`${Data.url}/courses/${productID}`, {
             method: "PUT",
@@ -127,6 +140,10 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
             },
             body: JSON.stringify(productNewData)
         }).then(res => res.json())
+            .then(result => {
+                closeEditModal()
+                getAllProducts()
+            })
 
 
 
@@ -180,7 +197,7 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
                                                 {pr.price.toLocaleString()}
                                             </td>
                                             <td>
-                                                {pr.categoryID}
+                                                {pr.categoryID.title}
                                             </td>
                                             <td>
                                                 {pr.description}
@@ -212,10 +229,10 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
                                                                 setProductsNewShortName(pr.shortName)
                                                                 setProductsNewPrice(pr.price)
                                                                 setProductsNewCover(pr.cover)
-                                                                setProductsNewCategory(pr.categoryID)
-                                                                updateWithButton("presell")
+                                                                setProductsNewCategory(pr.categoryID._id)
+                                                                updateWithButton("presell",pr._id,pr.name,pr.description,pr.shortName,pr.price,pr.cover,pr.categoryID._id)
                                                             }}>
-                                                                ناموجود
+                                                                ناموجود کردن
                                                             </button>
                                                         ) : (
                                                             <button className='btn btn-success' onClick={() => {
@@ -225,10 +242,10 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
                                                                 setProductsNewShortName(pr.shortName)
                                                                 setProductsNewPrice(pr.price)
                                                                 setProductsNewCover(pr.cover)
-                                                                setProductsNewCategory(pr.categoryID)
-                                                                updateWithButton("start")
+                                                                setProductsNewCategory(pr.categoryID._id)
+                                                                updateWithButton("start",pr._id,pr.name,pr.description,pr.shortName,pr.price,pr.cover,pr.categoryID._id)
                                                             }}>
-                                                                موجود
+                                                                موجود کردن
                                                             </button>
                                                         )
                                                     }
@@ -287,10 +304,9 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
                             }} />
                         </div>
                         <div className="form-group col-md-5 col-6 p-1">
-                            <label className="form-label fw-bold">دسته بندی جدید</label>
+                            <label className="form-label fw-bold">دسته بندی جدید !!!</label>
                             <select className="form-select" onChange={selectNewCategory}>
-
-
+                                <option value={-1}>انتخاب کنید</option>
                                 {
                                     categories.map(ct => (
                                         <option value={ct._id} selected={ct._id === productsNewCategory}>
@@ -301,23 +317,7 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
 
                             </select>
                         </div>
-                        <div className='col-10 d-flex justify-content-center'>
-                            <div className="form-group col-md-4 col-6 p-1 d-flex justify-content-around align-items-center mt-2">
-                                {
-                                    productNewStatus === "start" ? (
-                                        <>
-                                            <label className="form-label mb-0" for="customCheck1">ناموجود کردن</label>
-                                            <input type="radio" value="presell" className="custom-control-input" onInput={(event) => setProductNewStatus(event.target.value)} />
-                                        </>
-                                    ) : (
-                                        <>
-                                            <label className="form-label mb-0" for="customCheck1">موجود کردن</label>
-                                            <input type="radio" value="start" className="custom-control-input" onInput={(event) => setProductNewStatus(event.target.value)} />
-                                        </>
-                                    )
-                                }
-                            </div>
-                        </div>
+                        
                     </div>
                 </EditModal>
             }
