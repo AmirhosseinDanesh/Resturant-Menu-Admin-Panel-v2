@@ -14,14 +14,15 @@ export default function App() {
 
   const login = useCallback((userInfo, token) => {
     setToken(token)
-    setIsLoggedIn(true)
     setUserInfo(userInfo)
     localStorage.setItem("user", JSON.stringify({ token }))
+    setIsLoggedIn(true)
   },[])
   const logout = useCallback(() => {
     setToken(null)
     setUserInfo({})
     localStorage.removeItem("user")
+    setIsLoggedIn(false);
   },[])
 
   useEffect(() => {

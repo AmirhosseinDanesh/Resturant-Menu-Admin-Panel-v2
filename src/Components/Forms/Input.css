@@ -1,19 +1,25 @@
-.input-label , .form-check-label , .submitbtn-login{
-    font-size: 0.9rem !important;
-    margin-bottom: 1rem;
+.input-label,
+.form-check-label,
+.submitbtn-login {
+  font-size: 0.9rem !important;
+  margin-bottom: 1rem;
 }
 
-    /* input.form-control{
+/* input.form-control{
         direction: ltr;
     } */
 
 .form-control:focus {
-    box-shadow:-3px 5px 9px 1px rgb(0, 0, 0 ,0.5) !important;
+  box-shadow: -3px 5px 9px 1px rgb(0, 0, 0, 0.5) !important;
 }
 
-.valid{
-    border: 2px solid green !important;
+.valid {
+  border: 2px solid green !important;
 }
-.notvalid{
-    border: 2px solid red !important;
+.notvalid {
+  border: 2px solid red !important;
+}
+
+@media (min-width: 769px) {
+  
 }

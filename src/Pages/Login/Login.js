@@ -13,6 +13,8 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
     const auth = useContext(authContext)
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false);
+
     const [formState, onInputHandler] = useForm(
         {
             username: {
@@ -26,12 +28,8 @@ export default function Login() {
         },
         false
     );
-    useEffect(() => {
-        if (auth.isLoggedIn) {
-            navigate("/p-admin/");
-        }
-    }, [auth.isLoggedIn, navigate]);
-    
+
+
     const userLogin = (event) => {
         event.preventDefault();
 
@@ -39,7 +37,7 @@ export default function Login() {
             identifier: formState.inputs.username.value,
             password: formState.inputs.password.value,
         }
-
+        setIsLoading(true);
         fetch(`${Data.url}/auth/login`, {
             method: "POST",
             headers: {
@@ -63,6 +61,7 @@ export default function Login() {
                     buttons: "ورود به پنل",
                 }).then(() => {
                     auth.login({}, result.accessToken);
+                    navigate("/p-admin/");
 
                 });
             })
@@ -71,11 +70,16 @@ export default function Login() {
                     title: "همچین کاربری وجود ندارد",
                     icon: "error",
                     buttons: "تلاش دوباره",
-                });
-            });
+                })
+            })
+            .finally(() => setIsLoading(false));
+    }
 
-    };
-
+    useEffect(() => {
+        if (auth.isLoggedIn) {
+            navigate("/p-admin/");
+        }
+    }, [auth.isLoggedIn, navigate]);
 
     return (
         <>

@@ -20,9 +20,11 @@ export default function Header() {
             buttons: "بستن"
         }).then(() => {
             auth.logout()
+            navigate("/login")
             
         })
     }
+    
     useEffect(() => {
         if (!auth.isLoggedIn) {
             navigate("/login");
