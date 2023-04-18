@@ -26,11 +26,7 @@ export default function Login() {
         false
     );
 
-    useEffect(() => {
-        if (auth.isLoggedIn) {
-            navigate("/p-admin/");
-        }
-    }, [auth.isLoggedIn, navigate]);
+
 
     const userLogin = async (event) => {
         event.preventDefault();
@@ -73,6 +69,11 @@ export default function Login() {
         }
     };
 
+    useEffect(() => {
+        if (auth.isLoggedIn) {
+            navigate("/p-admin/");
+        }
+    }, [auth.isLoggedIn, navigate]);
     return (
         <>
             <div className="loginformbg col-12 d-flex justify-content-center">

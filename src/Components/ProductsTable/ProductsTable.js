@@ -19,8 +19,6 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
     const [productNewStatus, setProductNewStatus] = useState("")
 
     let updateWithButton = (status,id, name, description, shortName, price, cover, catID) => {
-        console.log("cat " + catID)
-        console.log("id "+ id)
         swal({
             title: " آیا از تفییر وضعیت محصول مطمعن هستید؟",
             buttons: ["خیر", "بله"]

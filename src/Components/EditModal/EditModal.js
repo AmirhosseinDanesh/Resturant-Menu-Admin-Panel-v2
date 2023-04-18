@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-
+import "./EditModal.css"
 export default function EditModal({ onHide, submit , children }) {
     useEffect(() => {
         var modal = document.querySelector('.modal');
