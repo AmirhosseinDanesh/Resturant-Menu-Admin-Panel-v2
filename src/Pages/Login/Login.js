@@ -57,7 +57,7 @@ export default function Login() {
                 buttons: "ورود به پنل",
             }).then(() => {
                 auth.login({}, result.accessToken);
-                navigate("/p-admin/");
+                navigate("/p-admin");
             });
 
         } catch (err) {
@@ -71,7 +71,7 @@ export default function Login() {
 
     useEffect(() => {
         if (auth.isLoggedIn) {
-            navigate("/p-admin/");
+            navigate("/p-admin");
         }
     }, [auth.isLoggedIn, navigate]);
     return (

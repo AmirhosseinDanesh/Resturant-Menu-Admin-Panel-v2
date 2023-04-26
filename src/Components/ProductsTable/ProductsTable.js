@@ -115,7 +115,6 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
     const LocalStorageData = JSON.parse(localStorage.getItem("user"))
 
     const submitEditModal = () => {
-        console.log(productID)
         const productNewData = {
             name: productsNewName,
             description: productsNewdescription,
@@ -126,7 +125,6 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
             status: productNewStatus
         }
 
-        console.log(productNewData)
         
 
         fetch(`${Data.url}/courses/${productID}`, {
@@ -301,7 +299,7 @@ export default function ProductsTable({ getAllProducts, allProducts }) {
                             }} />
                         </div>
                         <div className="form-group col-md-5 col-6 p-1">
-                            <label className="form-label fw-bold">دسته بندی جدید !!!</label>
+                            <label className="form-label fw-bold">دسته بندی جدید</label>
                             <select className="form-select" onChange={selectNewCategory}>
                                 <option value={-1}>انتخاب کنید</option>
                                 {
